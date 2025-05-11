@@ -37,8 +37,11 @@ app.post('/api/send-reminder', async (req, res) => {
     res.status(500).json({ error: "Failed to send reminder" });
   }
 });
-var cors = require('cors')
-app.use(cors())
+const cors = require('cors');
+app.use(cors({
+    origin: 'http://localhost:3000', // Your frontend URL
+    credentials: true
+}));
 app.use(express.json())
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));

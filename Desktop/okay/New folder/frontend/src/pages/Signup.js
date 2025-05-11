@@ -27,38 +27,92 @@ const Signup = () => {
             setError('Please fill all fields');
             return;
         }
-
+    
         setIsLoading(true);
+        setError(''); // Clear previous errors
+        
         try {
-            // const res = await axios.post('http://localhost:5000/api/auth/send-otp', { 
-            //     email: user.email 
-            // });
-            const res = await axios.post('http://localhost:5000/api/auth/send-otp', { email: user.email });
-                        console.log(res.data)
-            if (res.data.otp) {
+            const res = await axios.post('http://localhost:5000/api/auth/send-otp', { 
+                email: user.email 
+            });
+    
+            console.log('OTP Response:', res.data); // Debug response
+    
+            if (res.data.success) {
+                // Store the OTP received from backend
                 setServerOtp(res.data.otp);
                 setStep(2);
             } else {
-                setError('Failed to send OTP. Please try again.');
+                setError(res.data.error || 'Failed to send OTP. Please try again.');
             }
         } catch (error) {
-            setError(error.response?.data?.error || 'Error sending OTP');
+            console.error('OTP Error:', error.response?.data);
+            setError(error.response?.data?.error || 
+                    error.response?.data?.message || 
+                    'Error sending OTP. Please try again.');
         } finally {
             setIsLoading(false);
         }
     };
 
+
+    // const sendOtp = async () => {
+    //     if (!user.name || !user.email) {
+    //         setError('Please fill all fields');
+    //         return;
+    //     }
+
+    //     setIsLoading(true);
+    //     try {
+    //         // const res = await axios.post('http://localhost:5000/api/auth/send-otp', { 
+    //         //     email: user.email 
+    //         // });
+    //         const res = await axios.post('http://localhost:5000/api/auth/send-otp', { email: user.email });
+    //                     console.log(res.data)
+    //         if (res.data.otp) {
+    //             setServerOtp(res.data.otp);
+    //             setStep(2);
+    //         } else {
+    //             setError('Failed to send OTP. Please try again.');
+    //         }
+    //     } catch (error) {
+    //         setError(error.response?.data?.error || 'Error sending OTP');
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
+
+    // const verifyOtp = () => {
+    //     if (!otp) {
+    //         setError('Please enter OTP');
+    //         return;
+    //     }
+
+    //     if (parseInt(otp) === parseInt(serverOtp)) {
+    //         setStep(3);
+    //         setError('');
+    //     } else {
+    //         setError('Invalid OTP. Please try again.');
+    //     }
+    // };
     const verifyOtp = () => {
         if (!otp) {
             setError('Please enter OTP');
             return;
         }
-
-        if (parseInt(otp) === parseInt(serverOtp)) {
+    
+        // Compare as strings to avoid type issues
+        if (otp.toString().trim() === serverOtp.toString().trim()) {
             setStep(3);
             setError('');
         } else {
             setError('Invalid OTP. Please try again.');
+            console.log('OTP comparison failed:', {
+                entered: otp,
+                server: serverOtp,
+                enteredType: typeof otp,
+                serverType: typeof serverOtp
+            });
         }
     };
 
