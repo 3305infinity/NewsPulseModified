@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Main from './components/Main';
 import Home from './components/Home';
+import AddPlatform from './components/AddPlatform';
 function App() {
   return (
     <> 
@@ -23,6 +24,7 @@ function App() {
           {/* <Route exact path="/about" element={<About/>}></Route> */}
           <Route exact path="/login" element={<Login/>}></Route>
           <Route exact path="/signup" element={<Signup/>}></Route>
+          <Route exact path="/addplatform" element={<AddPlatform/>}></Route>
     </Routes>
     {/* </div> */}
     </Router> 

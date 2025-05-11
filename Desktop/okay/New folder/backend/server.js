@@ -13,6 +13,8 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS,
   },
 });
+const platformRoutes = require('./routes/platform');
+app.use('/platforms', platformRoutes);
 app.post('/api/send-reminder', async (req, res) => {
   const { email, contestName, platform, startTime, contestUrl } = req.body;
 

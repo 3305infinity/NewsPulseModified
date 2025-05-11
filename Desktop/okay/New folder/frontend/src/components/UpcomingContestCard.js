@@ -11,7 +11,7 @@
 // };
 
 // const UpcomingContestCard = ({ contest }) => {
-//   const { name, platform, url, startTime, duration } = contest;
+//   const { name,/ platform, url, startTime, duration } = contest;
 //   const formattedDate = moment(startTime).format('MMMM Do YYYY, h:mm A');
 //   const timeLeft = moment(startTime).fromNow();
 //   const badgeClass = platformColors[platform] || platformColors.default;
@@ -30,7 +30,7 @@
 //         <div className="mt-3 flex items-center text-sm text-gray-500">
 //           <FaCalendarAlt className="flex-shrink-0 mr-2" />
 //           <span>{formattedDate}</span>
-//         </div>
+//         </div>/
         
 //         <div className="mt-1 flex items-center text-sm text-gray-500">
 //           <FaClock className="flex-shrink-0 mr-2" />
