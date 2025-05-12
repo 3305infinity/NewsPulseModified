@@ -6,21 +6,15 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
-
-// Connect to Database
-// db.connectDB();
-
 // Middleware
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true,
   exposedHeaders: ['x-auth-token']
 }));
-
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-
 // Email transporter
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "sandbox.smtp.mailtrap.io",
@@ -30,28 +24,27 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS,
   },
 });
-
 // Routes
 const authRoutes = require('./routes/auth');
 const contestRoutes = require('./routes/contests');
 const platformRoutes = require('./routes/platform');
-
-// Apply routes
+const profileRoutes = require('./routes/profile');
+const platformUpdateRoutes = require('./routes/platformUpdate');
+// Apply routes                  
 app.use('/api/auth', authRoutes);
 app.use('/api/contests', contestRoutes); 
 app.use('/api/platform', platformRoutes);
-
+app.use('/api/profile', profileRoutes);
+app.use('/api/platforms/update', platformUpdateRoutes);
 // Email reminder endpoint
 app.post('/api/send-reminder', async (req, res) => {
   const { email, contestName, platform, startTime, contestUrl } = req.body;
-  
   if (!email || !contestName || !platform || !startTime) {
     return res.status(400).json({ 
       success: false, 
       error: 'Missing required fields' 
     });
   }
-  
   try {
     await transporter.sendMail({
       from: process.env.EMAIL_FROM || 'nishthap1410@gmail.com',
@@ -88,7 +81,6 @@ app.use((err, req, res, next) => {
     error: 'Server error'
   });
 });
-
 app.listen(port, () => {
   console.log(`Server is running on port http://localhost:${port}`);
 });

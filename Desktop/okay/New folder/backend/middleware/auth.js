@@ -187,6 +187,7 @@
 // };
 
 const jwt = require('jsonwebtoken');
+// require('dotenv').config();
 const User = require('../models/User');
 require('dotenv').config();
 
@@ -219,7 +220,6 @@ module.exports = async (req, res, next) => {
         error: 'User not found' 
       });
     }
-    
     next();
   } catch (err) {
     console.error('Authentication error:', err.message);

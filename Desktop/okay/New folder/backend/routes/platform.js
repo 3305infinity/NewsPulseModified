@@ -804,24 +804,20 @@ router.post('/', auth, async (req, res) => {
     });
   }
 });
-
 // Update platform handle
 router.put('/:id', auth, async (req, res) => {
   const { handle } = req.body;
-  
   if (!handle) {
     return res.status(400).json({
       success: false,
       error: 'Handle is required'
     });
   }
-  
   try {
     const platform = await Platform.findOne({
       _id: req.params.id,
       user: req.user._id
     });
-
     if (!platform) {
       return res.status(404).json({ 
         success: false,
